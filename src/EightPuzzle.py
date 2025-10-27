@@ -303,10 +303,17 @@ class EightPuzzle(Problem[StateType, ActionType]):
         if self._goal_state is None:
             return True  # Assume solvable if no goal state is defined
         
+        # Define a lambda function to flatten the array
+        flatten_array = lambda arr: [item for sublist in arr for item in sublist if item != 0]
+
         initial_inversions = 0
-        flat_initial = [num for num in state if num != 0]
+        flat_initial = flatten_array(state)
         goal_inversions = 0
-        flat_goal = [num for num in self._goal_state if num != 0]
+        flat_goal = flatten_array(self._goal_state)
+
+        # Logging debug flattened states
+        logging.debug(f"Flattened Initial State (no 0): {flat_initial}")
+        logging.debug(f"Flattened Goal State (no 0): {flat_goal}")
 
         # Count number of inversions in the initial state
         for i in range(len(flat_initial)):
@@ -319,6 +326,8 @@ class EightPuzzle(Problem[StateType, ActionType]):
             for j in range(i + 1, len(flat_goal)):
                 if flat_goal[i] > flat_goal[j]:
                     goal_inversions += 1
+
+        logging.debug(f"Initial Inversions: {initial_inversions}, Goal Inversions: {goal_inversions}")
 
         # If parity of both states is equal, then game is solvable.
         return (initial_inversions % 2) == (goal_inversions % 2)

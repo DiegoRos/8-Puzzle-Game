@@ -74,10 +74,10 @@ def solve(input_path: str, heuristic: HeuristicType = HeuristicType.LINEAR_CONFL
     heapq.heappush(frontier, (root_node.total_cost, root_node))
 
     # Save visited states to avoid cycles
-    reached: Set[tuple[int, ...]] = set()
+    reached: dict[tuple[int, ...]: Node] = {}
 
     # Add the initial state to reached
-    reached.add(game.seen_state(root_node.state))
+    reached[game.seen_state(root_node.state)] = root_node
     expanded_nodes += 1
 
     while frontier:
@@ -99,9 +99,11 @@ def solve(input_path: str, heuristic: HeuristicType = HeuristicType.LINEAR_CONFL
         # Expand the current node
         for child in expand(game, current_node):
             seen_state = game.seen_state(child.state)
-            if seen_state not in reached:
+
+            # Check if state has not been reached or found a cheaper path
+            if seen_state not in reached or child.path_cost < reached[seen_state].path_cost:
                 expanded_nodes += 1
-                reached.add(seen_state)
+                reached[seen_state] = child
                 heapq.heappush(frontier, (child.total_cost, child))
                 logging.debug(f"Added to frontier: {child}")
 
