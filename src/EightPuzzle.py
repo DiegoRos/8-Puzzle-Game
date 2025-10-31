@@ -398,8 +398,9 @@ class EightPuzzle(Problem[StateType, ActionType]):
         Returns:
             An integer representing the number of linear conflicts.
         """
+        horizontal_conflicts = 0
+        vertical_conflicts = 0
         conflicts = 0
-
         # Check for row conflicts
         for r in range(self._nrows):
             for c1 in range(self._ncols):
@@ -416,7 +417,7 @@ class EightPuzzle(Problem[StateType, ActionType]):
                     
                     # Check if their relative order is inverted from the goal
                     if self._goal_state_positions[tile1][1] > self._goal_state_positions[tile2][1]:
-                        conflicts += 1
+                        horizontal_conflicts += 1
 
         # Check for column conflicts
         for c in range(self._nrows):
@@ -434,8 +435,11 @@ class EightPuzzle(Problem[StateType, ActionType]):
 
                     # Check if their relative order is inverted from the goal
                     if self._goal_state_positions[tile1][0] > self._goal_state_positions[tile2][0]:
-                        conflicts += 1
+                        vertical_conflicts += 1
         
+        logging.debug(f"Horizontal Conflicts: {horizontal_conflicts}, Vertical Conflicts: {vertical_conflicts}")
+        conflicts = horizontal_conflicts + vertical_conflicts
+
         return conflicts
 
     def linear_conflict(self, state: tuple[int, ...]) -> float:
