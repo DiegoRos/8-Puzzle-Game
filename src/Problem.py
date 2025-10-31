@@ -1,3 +1,12 @@
+"""
+Author: Diego Rosenberg (dr3432)
+
+Problem.py
+- An abstract class defining the interface for a formal search problem.
+- This class is intended to be subclassed for specific problem implementations, such as the 8-puzzle. 
+    (That should be usable for other problems as well).
+"""
+
 from abc import ABC, abstractmethod
 from typing import Generic, List, TypeVar
 

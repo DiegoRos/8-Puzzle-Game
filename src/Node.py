@@ -1,3 +1,11 @@
+"""
+Author: Diego Rosenberg (dr3432)
+
+Node.py
+- Defines the Node class used in search algorithms for the 8-puzzle problem.
+- Each node represents a state in the search tree along with metadata such as path cost and parent node.
+"""
+
 from typing import TypeVar, Generic, Optional
 import logging
 

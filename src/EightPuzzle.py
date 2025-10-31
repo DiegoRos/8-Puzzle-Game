@@ -1,3 +1,11 @@
+"""
+Author: Diego Rosenberg (dr3432)
+
+EightPuzzle.py
+- Implementation of the 8-puzzle problem as a subclass of the Problem class.
+"""
+
+
 from Problem import Problem
 from typing import Optional, List, Callable, TypeAlias
 import random
