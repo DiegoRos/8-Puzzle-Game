@@ -268,7 +268,7 @@ class EightPuzzle(Problem[StateType, ActionType]):
             for col_index, value in enumerate(row):
                 if value == 0:
                     continue  # Skip the blank tile
-                position_map[value] = (col_index, row_index)
+                position_map[value] = (row_index, col_index)
 
         return position_map
     
@@ -425,6 +425,9 @@ class EightPuzzle(Problem[StateType, ActionType]):
                     
                     # Check if their relative order is inverted from the goal
                     if self._goal_state_positions[tile1][1] > self._goal_state_positions[tile2][1]:
+                        logging.debug(f"Linear conflict between tiles {tile1} and {tile2} in row {r}")
+                        logging.debug(f"Positions: {self._goal_state_positions[tile1]} vs {self._goal_state_positions[tile2]}\n")
+
                         horizontal_conflicts += 1
 
         # Check for column conflicts
@@ -443,9 +446,11 @@ class EightPuzzle(Problem[StateType, ActionType]):
 
                     # Check if their relative order is inverted from the goal
                     if self._goal_state_positions[tile1][0] > self._goal_state_positions[tile2][0]:
+                        logging.debug(f"Linear conflict between tiles {tile1} and {tile2} in column {c}")
+                        logging.debug(f"Positions: {self._goal_state_positions[tile1]} vs {self._goal_state_positions[tile2]}\n")
                         vertical_conflicts += 1
         
-        logging.debug(f"Horizontal Conflicts: {horizontal_conflicts}, Vertical Conflicts: {vertical_conflicts}")
+        logging.debug(f"Horizontal Conflicts: {horizontal_conflicts}, Vertical Conflicts: {vertical_conflicts}\n\n")
         conflicts = horizontal_conflicts + vertical_conflicts
 
         return conflicts
